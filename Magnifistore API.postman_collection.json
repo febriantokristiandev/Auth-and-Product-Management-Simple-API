@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "3f1d15f6-a5c5-4fec-8807-d57a18447212",
+		"name": "Magnifistore API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24346209"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/register",
+						"description": "### Registration\n\nEndpoint ini digunakan untuk mendaftar pengguna baru.\n\n#### Request Body\n\n``` json\n{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"securepassword\",\n    \"password_confirmation\": \"securepassword\",\n    \"is_admin\": false\n}\n\n ```\n\n- **name (string):** Nama lengkap pengguna. Field ini harus diisi dengan string dan maksimal 255 karakter.\n    \n- **email (string):** Alamat email pengguna. Field ini harus diisi dengan format email yang valid dan harus unik di dalam database.\n    \n- **password (string):** Kata sandi pengguna. Field ini harus diisi dengan string, harus sama dengan konfirmasi kata sandi, dan minimal 8 karakter.\n    \n- **password_confirmation (string):** Konfirmasi kata sandi. Field ini harus diisi dengan string dan harus cocok dengan kata sandi.\n    \n- **is_admin (boolean):** Menentukan apakah pengguna adalah admin. Jika diisi, harus berupa nilai boolean (\\`**true\\`** atau \\`**false\\`**).\n    \n\n#### Response Body\n\n``` json\n{\n    \"token\": \"12|qzJy3uJsyMeSazHVwzuHrZoggXwFrI91f6Womkqc15428aa7\"\n}\n\n ```\n\n- **token (string):** Token akses yang dikembalikan setelah autentikasi berhasil. Token ini digunakan untuk otentikasi pada endpoint lain yang memerlukan autentikasi."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/login",
+						"description": "### Registration\n\nEndpoint ini digunakan untuk menghapus token akses saat ini dari pengguna, sehingga mengakhiri sesi mereka. Setelah logout, token yang digunakan tidak akan valid lagi untuk akses API.\n\n#### Request Body\n\nTidak ada Request body\n\n#### Request Body\n\n##### Succeed Response\n\n``` json\n{\n    \"message\": \"Successfully logged out\"\n}\n\n ```\n\n##### Unauthorized Response\n\n``` json\n{\n    \"message\": \"Unauthorized\"\n}\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Admin Role Access",
+					"item": [
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://127.0.0.1:8000/api/products",
+								"description": "### Create Product\n\nEndpoint ini digunakan untuk membuat produk baru dalam sistem. Endpoint ini hanya dapat diakses oleh pengguna dengan hak akses admin.\n\n#### Request Body\n\n``` json\n{\n    \"name\": \"New Product\",\n    \"description\": \"Description of the new product.\",\n    \"price\": 29.99,\n    \"category\": \"Category Name\",\n    \"image\": \"http://example.com/image.jpg\"\n}\n\n ```\n\n- **name (string, mandatory):** Nama produk.\n    \n- **description (string):** Deskripsi produk.\n    \n- **price (string, mandatory):** Harga produk.\n    \n- **category (string):** Konfirmasi kata sandi. Field ini harus diisi dengan string dan harus cocok dengan kata sandi.\n    \n- **image (string):** URL gambar product.\n    \n\n#### Request Header\n\n```\nAuthorization: Bearer {admin_token}\n\n ```\n\n- Token akses admin diperlukan untuk otorisasi. Pastikan token dikirim dalam header Authorization dengan format Bearer {token}.\n    \n\n#### Response Body\n\n``` json\n{\n    \"id\": 1,\n    \"name\": \"New Product\",\n    \"description\": \"Description of the new product.\",\n    \"price\": 29.99,\n    \"category\": \"Category Name\",\n    \"image\": \"http://example.com/image.jpg\"\n}\n\n ```\n\n- **id (integer):** ID unik dari produk yang baru dibuat.\n    \n- **name (string):** Nama produk.\n    \n- **description (string):** Deskripsi rinci mengenai produk.\n    \n- **price (decimal):** Harga produk.\n    \n- **category (string):** Kategori produk.\n    \n- **image (string):** URL Gambar produk."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": "http://127.0.0.1:8000/api/products/1",
+								"description": "### Update Product\n\nMemperbarui informasi produk yang ada. Endpoint ini hanya dapat diakses oleh pengguna dengan hak akses admin.\n\n#### Request Body\n\n``` json\n{\n    \"name\": \"Updated Product\",\n    \"description\": \"Updated description of the product.\",\n    \"price\": 39.99,\n    \"category\": \"Updated Category\",\n    \"image\": \"http://example.com/updated-image.jpg\"\n}\n\n ```\n\nURL Parameter : PUT /api/products/{product_id}\n\n- **{product_id} (mandatory):** Parameter product_id di URL diganti dengan id dari product yang bersangkutan.\n    \n- **name (string, optional):** Nama produk.\n    \n- **description (string, optional):** Deskripsi produk.\n    \n- **price (string, mandatory):** Harga produk.\n    \n- **category (string, optional):** Kategori produk.\n    \n- **image (string, optional):** URL gambar product.\n    \n\n#### Request Header\n\n```\nAuthorization: Bearer {admin_token}\n\n ```\n\n- Token akses admin diperlukan untuk otorisasi. Pastikan token dikirim dalam header Authorization dengan format Bearer {token}.\n    \n\n#### Response Body\n\n``` json\n{\n    \"id\": 1,\n    \"name\": \"Updated Product\",\n    \"description\": \"Updated description of the product.\",\n    \"price\": 39.99,\n    \"category\": \"Updated Category\",\n    \"image\": \"http://example.com/updated-image.jpg\"\n}\n\n ```\n\n- **name (string):** Nama produk.\n    \n- **description (string):** Deskripsi produk.\n    \n- **price (decimal):** Harga produk.\n    \n- **category (string):** Kategori produk.\n    \n- **image (string):** URL Gambar produk."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"description": "### Delete Product\n\nMenghapus produk yang ada dari sistem. Endpoint ini hanya dapat diakses oleh pengguna dengan hak akses admin.\n\n#### Request Body\n\n```\nDELETE /api/products/1\n ```\n\n- **{product_id} (mandatory):** Parameter product_id di URL diganti dengan id dari product yang bersangkutan.\n    \n- **name (string, optional):** Nama produk.\n    \n- **description (string, optional):** Deskripsi produk.\n    \n- **price (string, mandatory):** Harga produk.\n    \n- **category (string, optional):** Kategori produk.\n    \n- **image (string, optional):** URL gambar product.\n    \n\n#### Request Header\n\n```\nAuthorization: Bearer {admin_token}\n\n ```\n\n- Token akses admin diperlukan untuk otorisasi. Pastikan token dikirim dalam header Authorization dengan format Bearer {token}.\n    \n\n#### Response Body\n\n``` json\n{\n    \"id\": 1,\n    \"name\": \"Updated Product\",\n    \"description\": \"Updated description of the product.\",\n    \"price\": 39.99,\n    \"category\": \"Updated Category\",\n    \"image\": \"http://example.com/updated-image.jpg\"\n}\n\n ```\n\n- **name (string):** Nama produk.\n    \n- **description (string):** Deskripsi produk.\n    \n- **price (decimal):** Harga produk.\n    \n- **category (string):** Kategori produk.\n    \n- **image (string):** URL Gambar produk."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Product List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/products",
+						"description": "### Get Product List\n\nEndpoint ini membuat permintaan HTTP GET untuk mengambil daftar produk dengan response berupa Pagination.\n\n#### Request Body\n\nRequest ini tidak memerlukan body\n\n#### Response Body\n\n``` json\n{\n    \"current_page\": 1,\n    \"data\": [],\n    \"first_page_url\": \"http://127.0.0.1:8000/api/products?page=1\",\n    \"from\": null,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://127.0.0.1:8000/api/products?page=1\",\n    \"links\": [\n        {\n            \"url\": null,\n            \"label\": \"« Previous\",\n            \"active\": false\n        },\n        {\n            \"url\": \"http://127.0.0.1:8000/api/products?page=1\",\n            \"label\": \"1\",\n            \"active\": true\n        },\n        {\n            \"url\": null,\n            \"label\": \"Next »\",\n            \"active\": false\n        }\n    ],\n    \"next_page_url\": null,\n    \"path\": \"http://127.0.0.1:8000/api/products\",\n    \"per_page\": 10,\n    \"prev_page_url\": null,\n    \"to\": null,\n    \"total\": 0\n}\n\n ```\n\n- **current_page (number)** : Menunjukkan halaman saat ini yang sedang ditampilkan.\n    \n- **data (array)** : List Array dari data product.\n    \n- **first_page_url (string)** : URL yang mengarah ke halaman pertama dari hasil pagination.\n    \n- **from (number)** : Index item pertama yang ditampilkan pada halaman saat ini. Nilai null menandakan bahwa tidak ada item yang ditampilkan.\n    \n- **last_page (number)** : URL yang mengarah ke halaman terakhir dari hasil pagination.\n    \n- **last_page_url (string)** : URL dari halaman terakhir dari product list.\n    \n- **links (array)** : Array yang berisi objek untuk navigasi antar halaman:\n    \n    - **url (string)** : URL untuk mengakses halaman yang dituju oleh label.\n        \n    - **label (string)** : Label untuk tombol navigasi (misalnya, « Previous, 1, Next »).\n        \n    - **active (boolean)** : Menunjukkan apakah halaman yang diwakili oleh label saat ini aktif atau tidak.\n        \n- **next_page_url (string)** : URL yang mengarah ke halaman berikutnya. Nilai null menunjukkan bahwa tidak ada halaman berikutnya.\n    \n- **path (string)** : URL dasar dari endpoint yang sedang diakses, tanpa parameter pagination.\n    \n- **per_page (number)** : Menunjukkan jumlah item yang ditampilkan per halaman.\n    \n- **prev_page_url (string)** : URL yang mengarah ke halaman sebelumnya.\n    \n- **to (number)** : Indeks item terakhir yang ditampilkan pada halaman saat ini.\n    \n- **total (number)** : Total jumlah item yang tersedia dalam keseluruhan data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product Details",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://127.0.0.1:8000/api/products/1",
+						"description": "### Registration\n\nEndpoint ini digunakan untuk mengambil detail dari sebuah produk berdasarkan ID-nya.\n\n#### Request Body\n\n``` bash\nGET /products/{product_id}\n\n ```\n\n- **product_id (integer, mandatory):** ID dari produk yang ingin diambil detailnya. Field ini wajib dan harus merupakan ID yang valid dari produk yang ada di database.\n    \n\n#### Response Body\n\n``` json\n{\n    \"id\": 1,\n    \"name\": \"Laptop XYZ\",\n    \"description\": \"Laptop dengan spesifikasi tinggi dan performa terbaik.\",\n    \"price\": 1500.00,\n    \"category\": \"Electronics\",\n    \"image\": \"http://example.com/images/laptop_xyz.png\"\n}\n\n ```\n\n- **token (string):** Token akses yang dikembalikan setelah autentikasi berhasil. Token ini digunakan untuk otentikasi pada endpoint lain yang memerlukan autentikasi."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

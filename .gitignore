@@ -1,0 +1,14 @@
+# Ignore the /backend/vendor/ directory
+/backend/vendor/
+
+# Ignore the /backend/node_modules/ directory
+/backend/node_modules/
+
+# Ignore the /backend/.vscode/ directory
+/backend/.vscode/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
